@@ -35,7 +35,7 @@
 | --- | --- |
 | 「撰寫乾淨、可維護、高品質的程式碼。」 | 刪除空泛口號；有實際例外才寫，例如某個跨層 import 禁止規則及理由。 |
 | 「這是 TypeScript 專案，請使用 TypeScript。」 | 通常能從檔案確認；若沒有具體誤用風險，不占根入口。 |
-| 「所有開發必須先讀完 docs 下全部文件。」 | 「修改權限判斷前，先讀 `CONTEXT.md` 的 Permission semantics。」只在該路徑與章節存在時使用。 |
+| 「所有開發必須先讀完 docs 下全部文件。」 | 「命名權限相關概念前，先讀 `GLOSSARY.md` 的 Permission 詞條。」只在該路徑與詞條存在時使用。 |
 | 「一律執行 npm test。」 | 先確認 scripts／workspace／lockfile；寫真正存在的目標與 cwd，沒有就回報缺少驗證途徑。 |
 | 「改 generated/ 的程式碼。」 | 若已確認為生成內容，說明真正的來源及生成流程；未找到流程時回報，不猜測 generator 指令。 |
 | 根檔案複製 200 行 formatter 規則。 | 指向現有 formatter 設定與檢查命令；不要順便改設定。 |
@@ -46,7 +46,7 @@
 
 **以下假設純屬示範，不代表使用者專案。**
 證據假設：根 `package.json` 有 `check:types` 與 `test:unit`，使用 pnpm；
-`CONTEXT.md`、`docs/adr/0007-layer-boundaries.md` 已存在且含對應章節；
+`GLOSSARY.md`、`docs/adr/0007-layer-boundaries.md` 已存在且含對應詞條與章節；
 團隊已確認生成檔不得手改。任何假設不成立，就不能照貼。
 
 ```markdown
@@ -67,7 +67,7 @@
 
 ## Read when relevant
 
-- 修改詞彙或權限行為前，先讀 `CONTEXT.md` 的 Domain rules。
+- 命名或新增領域概念前，先讀 `GLOSSARY.md` 的對應詞條，沿用其用語。
 - 新增跨層 import 前，先讀 `docs/adr/0007-layer-boundaries.md`。
 ```
 
@@ -75,15 +75,28 @@
 
 ## 4. 路由到既有 Workflow Skill
 
-只有確定 skill 已存在、目標 Agent 可取得時才寫，例如：
+只有確定 skill 已存在、目標 Agent 可取得時才寫。先看安裝版本的呼叫方式，
+它會隨版本改變：
 
-```markdown
-- 進入功能實作與驗證流程時，使用已安裝的 `dev-workflow-tdd` Skill。
-  若無法載入，回報缺少的能力，不假裝已執行該工作流。
-```
+- **model-invoked**：沒有 `disable-model-invocation: true`，Agent 可自行載入。
+  寫成明確的載入動作，不要只在文中提到名稱；只提名稱不保證 Skill 會被載入。
 
-不要把 Skill 全文嵌回 AGENTS.md。對跨工具 Repo，不把某個工具專用 slash command
-當成所有 Agent 都能呼叫的標準命令。
+  ```markdown
+  - 進入功能實作與驗證流程時，載入已安裝的 `tdd` Skill。
+    若無法載入，回報缺少的能力，不假裝已執行該工作流。
+  ```
+
+- **user-invoked**：有 `disable-model-invocation: true`（Codex 是 `agents/openai.yaml` 的
+  `policy.allow_implicit_invocation: false`）。Agent 與其他 Skill 都叫不到，
+  路由要寫成請使用者執行。
+
+  ```markdown
+  - 需要釐清領域用語或記錄架構決策時，請使用者執行 `grill-with-docs`。
+  ```
+
+以上 Skill 名稱與呼叫方式取自 mattpocock/skills v1.3.1，只是示範；
+Repo 沒有安裝就不要寫。不要把 Skill 全文嵌回 AGENTS.md。
+對跨工具 Repo，不把某個工具專用 slash command 當成所有 Agent 都能呼叫的標準命令。
 
 ## 5. 證據與取捨表
 
@@ -91,6 +104,7 @@
 | --- | --- | --- | --- | --- |
 | 使用某套件管理器 | manifest 與 lockfile | KEEP-ROOT 或 DROP | 是否為非預設且曾造成誤用 | 已查證，未執行 |
 | 詳細 domain 規則 | 既有 domain 文件 | MOVE-DOC | 僅特定變更需要 | 已查證 |
+| 跨檔一致性等判斷型規範 | 既有 `CODING_STANDARDS.md` | MOVE-DOC | review 時才需要，不必常駐實作上下文 | 已查證 |
 | 不得更新資料庫 schema | 無依據的口述推論 | NEEDS-DECISION | 涉及團隊政策，不能從單次任務推廣 | 未知 |
 | 詳細縮排規則 | formatter 設定 | ENFORCE-TOOL | 已有機械保證 | 已查證 |
 
