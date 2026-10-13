@@ -5,7 +5,7 @@
 建立、審核與重構高品質 `AGENTS.md` 的 Skill。
 先查 Repo 證據，保留必要指引，並在需要時引導 Agent 讀取既有的詳細文件。
 
-版本：**1.0.0** · 研究查核日：**2026-10-01** · 授權：**MIT**
+版本：**1.1.0** · 研究查核日：**2026-10-13** · 授權：**MIT**
 
 ## 安裝
 
@@ -105,7 +105,16 @@ Claude Code 使用者將目的地改成 `.claude/skills/write-agents-md`。安�
 4. 產出最小入口，寫清楚命令、行動邊界與條件式文件路由。
 5. 核對連結、作用域、矛盾與載入假設，回報已驗證及未驗證事項。
 
-已有 `CONTEXT.md`、`docs/agents/`、`docs/adr/` 就沿用。可搭配 `dev-workflow-tdd`、`grill-with-docs` 等既有工作流程。
+已有 `GLOSSARY.md`、`CODING_STANDARDS.md`、`docs/agents/`、`docs/adr/` 就沿用。可搭配 `dev-workflow-tdd`、`grill-with-docs` 等既有工作流程。
+
+### 搭配 mattpocock/skills
+
+依 [mattpocock/skills](https://github.com/mattpocock/skills) v1.3.1 核對：
+
+- **`GLOSSARY.md`**：v1.3.0 起這套 Skill 只讀 `GLOSSARY.md`／`GLOSSARY-MAP.md`。Repo 仍留著舊的 `CONTEXT.md`／`CONTEXT-MAP.md` 時，本 Skill 會建議用 `git mv` 改名並列出要更新的路由，不會自行改名。
+- **`## Agent skills` 區塊**：由 `setup-matt-pocock-skills` 寫入 `CLAUDE.md` 或 `AGENTS.md`。本 Skill 原位保留；需要搬到另一個入口檔時，列為待你決定的事項。
+- **`writing-for-agents`**：修改 `AGENTS.md`／`CLAUDE.md` 時也會觸發。它是寫作風格參考；本 Skill 負責查 Repo 證據並決定每條指引的去留。
+- **`retro`**：從過去 session 的失誤回推指引要怎麼改。本 Skill 則從 Repo 證據出發。
 
 ## 套件內容
 
@@ -116,14 +125,14 @@ Claude Code 使用者將目的地改成 `.claude/skills/write-agents-md`。安�
 | [references/compatibility.md](references/compatibility.md) | 檔案類型、載入行為與跨工具相容性。 |
 | [references/source-notes.md](references/source-notes.md) | 研究來源、採用原則、分歧與限制。 |
 | [references/evaluation.md](references/evaluation.md) | 靜態檢查、載入檢查與行為驗收方法。 |
-| [evals/evals.json](evals/evals.json) | 10 個人工或自建 harness 的驗收情境，不是可執行的測試程式。 |
-| [validation-report.md](validation-report.md) | 原始套件的靜態檢查結果與未驗證事項。 |
+| [evals/evals.json](evals/evals.json) | 12 個人工或自建 harness 的驗收情境，不是可執行的測試程式。 |
+| [validation-report.md](validation-report.md) | 套件的靜態檢查結果與未驗證事項。 |
 
 參考文件只在相關任務中讀取。研究結合官方文件、作者本人文章與論文；來源筆記保留署名、取捨與結論適用範圍。
 
 ## 驗證與限制
 
-套件已做靜態結構檢查。10 個行為驗收情境**尚未**在各 Agent 或使用者的真實 Repo 中完成端到端測試；沒有宣稱任務成功率、成本或 token 用量改善。
+套件已做靜態結構檢查。12 個行為驗收情境**尚未**在各 Agent 或使用者的真實 Repo 中完成端到端測試；沒有宣稱任務成功率、成本或 token 用量改善。
 
 指引負責引導行為；權限與不可逆操作的限制仍需由實際工具及執行環境保證。
 

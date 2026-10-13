@@ -7,8 +7,8 @@ description: >-
   先查 Repo 證據，再產出最小入口、按需文件路由與驗證報告。
   不用於一般功能開發、單次任務計畫或建立自訂 agent persona。
 metadata:
-  version: "1.0.0"
-  researched-on: "2026-10-01"
+  version: "1.1.0"
+  researched-on: "2026-10-13"
 ---
 
 # Write AGENTS.md
@@ -66,7 +66,7 @@ metadata:
 | --- | --- |
 | `KEEP-ROOT` | 全域、非顯而易見的必要約束；重要行動邊界；關鍵文件入口。 |
 | `MOVE-SCOPED` | 僅特定套件／目錄適用，且已確認目標工具的載入方式。 |
-| `MOVE-DOC` | domain 知識、架構理由、詳細契約；入口留下觸發條件與路徑。 |
+| `MOVE-DOC` | domain 知識、架構理由、詳細契約、review 時才需要的判斷型規範；入口留下觸發條件與路徑。 |
 | `MOVE-SKILL` | 只在特定任務執行的多步驟工作流程。 |
 | `ENFORCE-TOOL` | 適合 formatter、linter、型別或測試保證；只提案，不擅改工具。 |
 | `DROP` | 重複、已失效、有證據可刪的內容，或沒有操作意義的口號。 |
@@ -84,8 +84,10 @@ metadata:
 不得臆造 `npm test`、替換 package manager，或把 CI 專用命令當成本機可直接跑。
 
 路由寫成「當 X，先讀 Y，再做 Z」，不要只有沒有用途的連結清單。
-優先沿用既有的 `CONTEXT.md`、`docs/agents/`、`docs/adr/`、`docs/rules/`；
-名稱不同就沿用現況。缺少實質內容時，不建立空白文件或平行知識目錄。
+優先沿用既有的 `GLOSSARY.md`／`GLOSSARY-MAP.md`、`CODING_STANDARDS.md`、`docs/agents/`、
+`docs/adr/`、`docs/rules/`；名稱不同就沿用現況。缺少實質內容時，不建立空白文件或平行知識目錄。
+Repo 採用只認 `GLOSSARY.md` 的 Skill 卻仍留著舊 `CONTEXT.md`／`CONTEXT-MAP.md` 時，
+回報改名建議（`git mv`）與需同步更新的路由；未獲授權不自行改名。
 不要讓每次任務都被要求讀完所有參考資料。
 
 優先指向可核對的檔案與標題／symbol，避免複製會漂移的內容與固定行號。
@@ -111,6 +113,8 @@ metadata:
 
 同一政策保留單一來源。相容 wrapper 只承接工具差異；不複製兩份會漂移的全文。
 既有 wrapper 含有額外有效政策時先保留，不因新版支援而直接刪除。
+由其他 Skill 管理的區塊（例如 `setup-matt-pocock-skills` 寫入的 `## Agent skills`）
+原位保留、不改寫；需要搬到另一個入口檔時列為 `NEEDS-DECISION`，不自行搬移。
 未實測載入就標示未實測；不把模型自稱「已讀取」當成唯一證據。
 
 ## 6. 驗證與交付

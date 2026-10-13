@@ -49,9 +49,36 @@ Codex 的官方說明是從 Repo 根目錄建立到目前工作目錄的指引�
 對 OpenCode、Kimi 的 Skill 安裝支援，不可直接推論其 AGENTS nested 載入語義。
 Skill discovery 與 Repo instructions discovery 是兩個獨立問題。
 
+## 其他 Skill 管理的區塊與檔名
+
+查核日：2026-10-13，依 mattpocock/skills v1.3.1。其他 Skill 套件可能有類似機制，先查該套件的文件。
+
+`setup-matt-pocock-skills` 的寫入規則：
+
+- `CLAUDE.md` 存在就編輯它，否則編輯 `AGENTS.md`；兩者都沒有時詢問使用者。
+  已有其中一個時，不另建另一個。
+- 在選定檔案寫入 `## Agent skills` 區塊，指向 `docs/agents/issue-tracker.md`、
+  `docs/agents/domain.md`，安裝 `triage` 時另有 `docs/agents/triage-labels.md`。
+- 重跑時更新選定檔案裡的既有區塊。
+- `to-tickets`、`triage` 等 Skill 預期這些設定已在上下文中；找不到時會請使用者重跑 setup。
+  所以區塊必須留在每個使用這些 Skill 的 Agent 都會載入的入口檔。
+
+因此：
+
+- 精簡或重構時，區塊與 `docs/agents/` 設定檔原位保留，不當成重複內容刪除或改寫。
+- 想把政策集中到 `AGENTS.md`、讓 `CLAUDE.md` 只剩 `@AGENTS.md` 時，區塊放哪裡沒有免費選項：
+  留在 `CLAUDE.md`，只讀 `AGENTS.md` 的 Agent（如 Codex）看不到；
+  搬到 `AGENTS.md`，下次重跑 setup 可能因 `CLAUDE.md` 存在而在那裡再寫一份。
+  列為 `NEEDS-DECISION`，附上這個取捨，不自行搬移。
+- v1.3.0 起，這套 Skill 只找 `GLOSSARY.md`／`GLOSSARY-MAP.md`，不再讀 `CONTEXT.md`／`CONTEXT-MAP.md`。
+  遇到舊檔名時，回報改名建議（`git mv`）與要同步更新的路由；未獲授權不自行改名。
+
+來源：[mattpocock/skills](https://github.com/mattpocock/skills) 的
+`skills/engineering/setup-matt-pocock-skills/SKILL.md` 與 `CHANGELOG.md`（1.3.0）。
+
 ## 建議的相容性決策順序
 
-1. 列出實際使用的工具、版本、cwd、既有入口及 import。
+1. 列出實際使用的工具、版本、cwd、既有入口、import，以及由其他 Skill 管理的區塊。
 2. 選擇共用政策的單一來源，保留必需的工具專屬差異。
 3. 只有確認需要才建立 adapter；不要先複製兩份全文。
 4. 在乾淨 session 檢查實際載入，再測代表性任務。

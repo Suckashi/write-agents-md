@@ -5,7 +5,7 @@
 A skill for creating, auditing, and refactoring high-quality `AGENTS.md` files.
 Inspect repository evidence, keep essential instructions, and route detailed knowledge to existing documentation when relevant.
 
-Version: **1.0.0** · Research reviewed: **2026-10-01** · License: **MIT**
+Version: **1.1.0** · Research reviewed: **2026-10-13** · License: **MIT**
 
 ## Install
 
@@ -105,7 +105,16 @@ Do not modify application code, dependencies, CI, or tool settings. Do not commi
 4. Produce a minimal entry point with clear commands, boundaries, and conditional document routes.
 5. Check links, scope, conflicts, and loading assumptions; report what was and was not tested.
 
-The workflow reuses existing `CONTEXT.md`, `docs/agents/`, and `docs/adr/` structures when present. It works alongside workflows such as `dev-workflow-tdd` and `grill-with-docs`.
+The workflow reuses existing `GLOSSARY.md`, `CODING_STANDARDS.md`, `docs/agents/`, and `docs/adr/` structures when present. It works alongside workflows such as `dev-workflow-tdd` and `grill-with-docs`.
+
+### Using it with mattpocock/skills
+
+Checked against [mattpocock/skills](https://github.com/mattpocock/skills) v1.3.1:
+
+- **`GLOSSARY.md`**: since v1.3.0 those skills read only `GLOSSARY.md` / `GLOSSARY-MAP.md`. When a repository still has the old `CONTEXT.md` / `CONTEXT-MAP.md`, this skill recommends a `git mv` and lists the routes to update; it does not rename files on its own.
+- **`## Agent skills` block**: written by `setup-matt-pocock-skills` into `CLAUDE.md` or `AGENTS.md`. This skill leaves it in place. Moving it to another entry file is reported as a decision for you.
+- **`writing-for-agents`**: also triggers when editing `AGENTS.md` or `CLAUDE.md`. Use it as the writing-style reference; this skill handles repository evidence and keep/move/drop decisions.
+- **`retro`**: suggests guideline changes from a past session's mistakes. This skill works from repository evidence.
 
 ## Contents
 
@@ -116,14 +125,14 @@ The workflow reuses existing `CONTEXT.md`, `docs/agents/`, and `docs/adr/` struc
 | [references/compatibility.md](references/compatibility.md) | File types, loading behavior, and cross-agent compatibility. |
 | [references/source-notes.md](references/source-notes.md) | Research sources, adopted principles, disagreements, and limitations. |
 | [references/evaluation.md](references/evaluation.md) | Static checks, loading checks, and behavioral evaluation guidance. |
-| [evals/evals.json](evals/evals.json) | Ten evaluation scenarios for manual use or a custom harness; not an executable test runner. |
-| [validation-report.md](validation-report.md) | Original package validation results and untested areas. |
+| [evals/evals.json](evals/evals.json) | Twelve evaluation scenarios for manual use or a custom harness; not an executable test runner. |
+| [validation-report.md](validation-report.md) | Package validation results and untested areas. |
 
 References are loaded when relevant. Research combines official documentation, original authors' articles, and papers; attribution and qualifications are retained in the source notes.
 
 ## Validation and limitations
 
-The package has undergone static structure checks. The ten behavioral scenarios have **not** been run end-to-end across the supported agents or a user's real repository. No improvement in task success rate, cost, or token usage is claimed.
+The package has undergone static structure checks. The twelve behavioral scenarios have **not** been run end-to-end across the supported agents or a user's real repository. No improvement in task success rate, cost, or token usage is claimed.
 
 Instructions guide behavior; enforce permissions and irreversible-operation boundaries through the actual tools and execution environment.
 

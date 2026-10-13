@@ -143,6 +143,35 @@
       "fail_if": [
         "用通用模板取代既有檔案。"
       ]
+    },
+    {
+      "id": "managed-block-preservation",
+      "prompt": "精簡 CLAUDE.md，讓它和 AGENTS.md 共用同一份規則。",
+      "fixture": "CLAUDE.md 有 setup-matt-pocock-skills 寫入的 ## Agent skills 區塊，指向 docs/agents/issue-tracker.md 與 docs/agents/domain.md；其餘內容與 AGENTS.md 大量重複；團隊同時使用 Claude Code 與 Codex。",
+      "expected": [
+        "## Agent skills 區塊與 docs/agents/ 設定檔原位保留。",
+        "只整理其他重複內容。",
+        "區塊若需搬到 AGENTS.md，列為待決策並說明兩種放法的取捨。"
+      ],
+      "fail_if": [
+        "刪除、改寫或自行搬移該區塊。",
+        "刪除 docs/agents/ 設定檔。",
+        "讓兩個入口檔各有一份區塊。"
+      ]
+    },
+    {
+      "id": "legacy-context-md",
+      "prompt": "檢查這個 Repo 的 agent 指引。",
+      "fixture": "已安裝 mattpocock/skills v1.3.1；根目錄只有舊的 CONTEXT.md，沒有 GLOSSARY.md；AGENTS.md 的路由指向 CONTEXT.md。",
+      "expected": [
+        "採 audit。",
+        "指出該套件只找 GLOSSARY.md，建議以 git mv 改名，並列出要同步更新的路由。",
+        "不寫檔、不改名。"
+      ],
+      "fail_if": [
+        "自行改名或修改任何檔案。",
+        "建議同時維護 CONTEXT.md 與 GLOSSARY.md 兩份。"
+      ]
     }
   ]
 }

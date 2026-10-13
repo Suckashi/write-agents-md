@@ -1,6 +1,6 @@
 # AGENTS.md 寫作研究與來源筆記
 
-查核日：2026-10-01。這是多來源綜合後的設計，不是客觀排名，也不宣稱存在所有 Repo 通用的最佳模板。
+查核日：2026-10-01；S18 為 2026-10-13。這是多來源綜合後的設計，不是客觀排名，也不宣稱存在所有 Repo 通用的最佳模板。
 採官方文件、作者本人文章與研究論文為主；不把社群轉述當成標準。
 Boris 的貼文另註明使用公開鏡像核對。
 
@@ -128,7 +128,32 @@ v1：2026-02-12；v2：2026-06-23；v3：2026-09-29（查核日最新版本）�
 
 用來核實安裝路徑與手動呼叫方式，不代表本套件已於四個工具完成端到端測試。
 
-## 五、最後採取的綜合原則
+## 五、與其他 Skill 套件並存
+
+### S18 — Matt Pocock：mattpocock/skills
+
+來源：<https://github.com/mattpocock/skills>
+查核版本：v1.3.1（2026-10-04）；另看 main 至 2026-10-09 尚未發版的 changeset。
+
+這是 S06 作者自己維護的 Skill 套件。它的慣例會讀寫 Repo 指引，與本 Skill 的產出直接相關：
+
+- v1.3.0 把 `CONTEXT.md`／`CONTEXT-MAP.md` 改名為 `GLOSSARY.md`／`GLOSSARY-MAP.md`，
+  之後只找新檔名。本 Skill 改以新名稱為沿用目標，舊檔名只回報改名建議。
+- `setup-matt-pocock-skills` 在 `CLAUDE.md`（優先）或 `AGENTS.md` 寫入 `## Agent skills` 區塊，
+  設定放在 `docs/agents/`，供其他 Skill 從上下文讀取。本 Skill 把它當成受管理區塊，原位保留。
+- `retro` 主張入口檔極少用、主要放 navigation pointer；機械規則做成 lint、hook 或 CI，
+  判斷型規範放 review 時讀的 `CODING_STANDARDS.md`。這和本 Skill 的 `ENFORCE-TOOL`
+  一致，並補上 `CODING_STANDARDS.md` 作為 `MOVE-DOC` 的沿用目標。
+  未發版的 `code-review` 變更會固定把 `CODING_STANDARDS.md`／`CONTRIBUTING.md` 交給 Standards 子 agent。
+- 跨 Skill 呼叫只對 model-invoked Skill 有效；`disable-model-invocation: true` 的 Skill
+  只能由使用者執行。本 Skill 的路由範例據此分成兩種寫法。
+- `writing-for-agents` 的觸發條件包含修改 AGENTS.md／CLAUDE.md，與本 Skill 重疊。
+  它是寫作風格參考，本 Skill 負責取證與取捨；不為此加長 description，分工寫在 README。
+
+這是單一作者的套件慣例，不是跨工具標準；只在 Repo 實際採用該套件時才套用。
+未發版的變更可能再改，引用時以使用者安裝的版本為準。
+
+## 六、最後採取的綜合原則
 
 | 分歧／風險 | 本 Skill 的決策 |
 | --- | --- |
@@ -138,5 +163,7 @@ v1：2026-02-12；v2：2026-06-23；v3：2026-09-29（查核日最新版本）�
 | 學到的教訓都永久追加？ | 先修既有規則／補工具驗證，再考慮最小增補，同時清理過期內容。 |
 | 寫完就算成功？ | 先做靜態與載入檢查；改善行為需要獨立任務測試，而非模型自評。 |
 | AGENTS 還是 Skills 二選一？ | 不是；入口負責必要資訊與路由，Skill 負責有明確觸發的工作流。 |
+| 判斷型 coding 規範放哪？ | 機械規則交給工具；判斷型規範在 Repo 已有 `CODING_STANDARDS.md` 時移入，不常駐根入口。 |
+| 其他 Skill 寫入的區塊？ | 原位保留；需要搬移或改名時回報，列為待決策。 |
 
 研究內容主要保留在本筆記，不塞入產生的 Repo 入口；Repo 規則的根據必須來自該 Repo 與團隊決策。
